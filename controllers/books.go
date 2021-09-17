@@ -20,6 +20,20 @@ func GetBookController(c echo.Context) error {
 	})
 }
 
+func GetBookByIdController(c echo.Context) error {
+	books, err := database.GetBookById(c)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
+			"message": "Failed",
+			"error":   err.Error(),
+		})
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "Success Find Book ById",
+		"books":   books,
+	})
+}
+
 func CreateBookController(c echo.Context) error {
 	books, err := database.CreateBook(c)
 	c.Bind(&books)

@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"orm-crud/config"
 	"orm-crud/models"
+	"strconv"
 )
 
 func GetBook() (*[]models.Book, error) {
@@ -11,6 +12,15 @@ func GetBook() (*[]models.Book, error) {
 
 	if err := config.DB.Find(&books).Error; err != nil {
 		return &[]models.Book{}, err
+	}
+	return &books, nil
+}
+
+func GetBookById(c echo.Context) (*models.Book, error) {
+	books := models.Book{}
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+		return &models.Book{}, err
 	}
 	return &books, nil
 }
