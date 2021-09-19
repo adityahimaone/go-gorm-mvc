@@ -10,7 +10,7 @@ func NewRouters() *echo.Echo {
 	e.GET("/book", controllers.GetBookController)
 	e.GET("/book/:id", controllers.GetBookByIdController)
 	e.POST("/book", controllers.CreateBookController)
-	e.PUT("/book", controllers.UpdateBookController)
-	e.DELETE("/book", controllers.DeleteBookController)
+	e.PUT("/book/:id", controllers.UpdateBookController)
+	e.DELETE("/book/:id", controllers.DeleteBookController)
 	return e
 }

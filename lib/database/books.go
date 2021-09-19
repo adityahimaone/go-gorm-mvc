@@ -36,8 +36,9 @@ func CreateBook(c echo.Context) (*models.Book, error) {
 
 func UpdateBook(c echo.Context) (*models.Book, error) {
 	var books models.Book
+	id, _ := strconv.Atoi(c.Param("id"))
 	c.Bind(&books)
-	if err := config.DB.Where("id = ?", &books.ID).Updates(&books).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Updates(&books).Error; err != nil {
 		return &models.Book{}, err
 	}
 	return &books, nil
@@ -45,8 +46,8 @@ func UpdateBook(c echo.Context) (*models.Book, error) {
 
 func DeleteBook(c echo.Context) (*models.Book, error) {
 	var books models.Book
-	c.Bind(&books)
-	if err := config.DB.Where("id = ?", &books.ID).Delete(&books).Error; err != nil {
+	id, _ := strconv.Atoi(c.Param("id"))
+	if err := config.DB.Where("id = ?", id).Delete(&books).Error; err != nil {
 		return &models.Book{}, err
 	}
 	return &books, nil
