@@ -24,6 +24,8 @@ func NewRouters() *echo.Echo {
 	e.PUT("/user/:id", controllers.UpdateUserController)
 	e.DELETE("/user/:id", controllers.DeleteUserController)
 
+	//Login
+	e.POST("/login", controllers.LoginUserController)
 	//JWT AUth
 	r := e.Group("/jwt")
 	r.Use(middleware.JWT([]byte(config.JWT_SECRET)))
