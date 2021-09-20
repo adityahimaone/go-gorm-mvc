@@ -8,6 +8,9 @@ import (
 
 var DB *gorm.DB
 
+const JWT_SECRET string = "secretofjwt"
+const JWT_EXP int = 1
+
 func InitDB() {
 	connectionString := "root:@tcp(127.0.0.1:3306)/books?charset=utf8mb4&parseTime=True&loc=Local"
 
@@ -20,4 +23,5 @@ func InitDB() {
 
 func InitalMigration() {
 	DB.AutoMigrate(&models.Book{})
+	DB.AutoMigrate(&models.User{})
 }

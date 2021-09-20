@@ -2,6 +2,7 @@ package main
 
 import (
 	"orm-crud/config"
+	m "orm-crud/middleware"
 	"orm-crud/routes"
 )
 
@@ -9,5 +10,6 @@ func main() {
 	config.InitDB()
 	config.InitalMigration()
 	e := routes.NewRouters()
-	e.Start(":8080")
+	m.LogMiddleware(e)
+	e.Logger.Fatal(e.Start(":8080"))
 }

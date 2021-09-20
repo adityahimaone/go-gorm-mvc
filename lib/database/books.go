@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"github.com/labstack/echo/v4"
 	"orm-crud/config"
 	"orm-crud/models"
@@ -41,12 +42,19 @@ func UpdateBook(c echo.Context) (*models.Book, error) {
 	if err := config.DB.Where("id = ?", id).Updates(&books).Error; err != nil {
 		return &models.Book{}, err
 	}
+
+	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+		return nil, errors.New("Data tidak ditemukan")
+	}
 	return &books, nil
 }
 
 func DeleteBook(c echo.Context) (*models.Book, error) {
 	var books models.Book
 	id, _ := strconv.Atoi(c.Param("id"))
+	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+		return &models.Book{}, errors.New("Data tidak ditemukan")
+	}
 	if err := config.DB.Where("id = ?", id).Delete(&books).Error; err != nil {
 		return &models.Book{}, err
 	}

@@ -75,6 +75,6 @@ func DeleteBookController(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "Success Delete Book",
-		"books":   books,
+		/*"books":   books,*/
 	})
 }
