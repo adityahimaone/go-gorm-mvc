@@ -36,7 +36,6 @@ func GetBookByIdController(c echo.Context) error {
 
 func CreateBookController(c echo.Context) error {
 	books, err := database.CreateBook(c)
-	c.Bind(&books)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",
@@ -51,7 +50,6 @@ func CreateBookController(c echo.Context) error {
 
 func UpdateBookController(c echo.Context) error {
 	books, err := database.UpdateBook(c)
-	c.Bind(&books)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",
@@ -65,8 +63,7 @@ func UpdateBookController(c echo.Context) error {
 }
 
 func DeleteBookController(c echo.Context) error {
-	books, err := database.DeleteBook(c)
-	c.Bind(&books)
+	_, err := database.DeleteBook(c)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",

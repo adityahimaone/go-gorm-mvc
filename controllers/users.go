@@ -38,7 +38,6 @@ func GetUserByIdController(c echo.Context) error {
 
 func CreateUserController(c echo.Context) error {
 	users, err := database.CreateUser(c)
-	c.Bind(&users)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",
@@ -53,7 +52,6 @@ func CreateUserController(c echo.Context) error {
 
 func UpdateUserController(c echo.Context) error {
 	users, err := database.UpdateUser(c)
-	c.Bind(&users)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",
@@ -67,8 +65,7 @@ func UpdateUserController(c echo.Context) error {
 }
 
 func DeleteUserController(c echo.Context) error {
-	users, err := database.DeleteUser(c)
-	c.Bind(&users)
+	_, err := database.DeleteUser(c)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "Failed",
