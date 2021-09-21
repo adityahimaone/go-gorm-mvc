@@ -45,7 +45,7 @@ func CreateUserController(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Success Create Book",
+		"message": "Success Create User",
 		"user":    users,
 	})
 }
@@ -59,7 +59,7 @@ func UpdateUserController(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Success Update Book",
+		"message": "Success Update User",
 		"user":    users,
 	})
 }
@@ -73,7 +73,7 @@ func DeleteUserController(c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Success Delete Book",
+		"message": "Success Delete User",
 		/*"user":    users,*/
 	})
 }

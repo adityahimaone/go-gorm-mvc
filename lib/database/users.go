@@ -30,6 +30,9 @@ func GetUserById(c echo.Context) (*models.User, error) {
 func CreateUser(c echo.Context) (*models.User, error) {
 	var users models.User
 	c.Bind(&users)
+	if err := config.DB.Where("email = ?", users.Email).First(&users).Error; err == nil {
+		return &models.User{}, errors.New("Email sudah didaftarkan")
+	}
 	if err := config.DB.Save(&users).Error; err != nil {
 		return &models.User{}, err
 	}
@@ -54,7 +57,8 @@ func DeleteUser(c echo.Context) (*models.User, error) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	if err := config.DB.Where("id = ?", id).First(&users).Error; err != nil {
 		return &models.User{}, errors.New("Data tidak ditemukan")
-	} else if err = config.DB.Where("id = ?", id).Delete(&users).Error; err != nil {
+	}
+	if err := config.DB.Where("id = ?", id).Delete(&users).Error; err != nil {
 		return &models.User{}, err
 	}
 	return &users, nil
