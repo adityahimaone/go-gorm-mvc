@@ -102,7 +102,7 @@ func GetUserDetailController(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Success",
+		"message": "Success Token Valid",
 		"user":    users,
 	})
 }

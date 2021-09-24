@@ -2,61 +2,50 @@ package database
 
 import (
 	"errors"
-	"github.com/labstack/echo/v4"
 	"orm-crud/config"
 	"orm-crud/models"
-	"strconv"
 )
 
 func GetBook() (*[]models.Book, error) {
 	var books []models.Book
-
 	if err := config.DB.Find(&books).Error; err != nil {
 		return &[]models.Book{}, err
 	}
 	return &books, nil
 }
 
-func GetBookById(c echo.Context) (*models.Book, error) {
-	books := models.Book{}
-	id, _ := strconv.Atoi(c.Param("id"))
-	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+func GetBookById(id int) (*models.Book, error) {
+	var book models.Book
+	if err := config.DB.Where("id = ?", id).First(&book).Error; err != nil {
 		return &models.Book{}, err
 	}
-	return &books, nil
+	return &book, nil
 }
 
-func CreateBook(c echo.Context) (*models.Book, error) {
-	books := models.Book{}
-	c.Bind(&books)
-	if err := config.DB.Save(&books).Error; err != nil {
+func CreateBook(book models.Book) (*models.Book, error) {
+	if err := config.DB.Save(&book).Error; err != nil {
 		return &models.Book{}, err
 	}
-	return &books, nil
+	return &book, nil
 }
 
-func UpdateBook(c echo.Context) (*models.Book, error) {
-	var books models.Book
-	id, _ := strconv.Atoi(c.Param("id"))
-	c.Bind(&books)
-	if err := config.DB.Where("id = ?", id).Updates(&books).Error; err != nil {
+func UpdateBook(id int, book models.Book) (*models.Book, error) {
+	if err := config.DB.Where("id = ?", id).Updates(&book).Error; err != nil {
 		return &models.Book{}, err
 	}
 
-	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).First(&book).Error; err != nil {
 		return nil, errors.New("Data tidak ditemukan")
 	}
-	return &books, nil
+	return &book, nil
 }
 
-func DeleteBook(c echo.Context) (*models.Book, error) {
-	var books models.Book
-	id, _ := strconv.Atoi(c.Param("id"))
-	if err := config.DB.Where("id = ?", id).First(&books).Error; err != nil {
+func DeleteBook(id int, book models.Book) (*models.Book, error) {
+	if err := config.DB.Where("id = ?", id).First(&book).Error; err != nil {
 		return &models.Book{}, errors.New("Data tidak ditemukan")
 	}
-	if err := config.DB.Where("id = ?", id).Delete(&books).Error; err != nil {
+	if err := config.DB.Where("id = ?", id).Delete(&book).Error; err != nil {
 		return &models.Book{}, err
 	}
-	return &books, nil
+	return &book, nil
 }
